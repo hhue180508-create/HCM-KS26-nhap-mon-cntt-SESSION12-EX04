@@ -1,0 +1,184 @@
+BÀI TẬP TỔNG HỢP: HỆ THỐNG CLINIC-CLOUD
+Phần 1. Phân tích yêu cầu hệ thống
+1.1. Phân biệt yêu cầu chức năng và phi chức năng
+Tiêu chí
+Yêu cầu chức năng (Functional Requirements)
+Yêu cầu phi chức năng (Non-functional Requirements)
+Khái niệm
+Mô tả những việc hệ thống phải thực hiện.
+Mô tả tiêu chuẩn chất lượng và cách hệ thống vận hành.
+Ví dụ
+Đăng ký bệnh nhân, đặt lịch khám, lưu bệnh án, tra cứu lịch sử khám.
+Bảo mật thông tin, tốc độ phản hồi, khả năng sao lưu và khôi phục dữ liệu.
+Mục đích
+Hỗ trợ quy trình khám chữa bệnh.
+Đảm bảo hệ thống an toàn, ổn định và đáng tin cậy.
+Người sử dụng
+Lễ tân, bác sĩ, nhân viên y tế.
+Quản trị viên và toàn bộ người dùng hệ thống theo quyền được cấp.
+
+1.2. Đặc tả yêu cầu phần mềm (SRS)
+Tên hệ thống: Clinic-Cloud
+Tên module: Bệnh án điện tử (Electronic Medical Records - EMR)
+Mục đích: Số hóa hồ sơ bệnh nhân, hỗ trợ bác sĩ quản lý thông tin khám chữa bệnh và đảm bảo dữ liệu được bảo vệ.
+A. Yêu cầu chức năng
+FR-01: Quản lý bệnh nhân. Cho phép tạo mới, cập nhật và tra cứu hồ sơ theo mã bệnh nhân.
+FR-02: Quản lý lịch khám. Cho phép đặt lịch, cập nhật lịch hẹn và theo dõi trạng thái khám.
+FR-03: Quản lý bệnh án. Cho phép bác sĩ được phân quyền ghi nhận triệu chứng, chẩn đoán, phương pháp điều trị và đơn thuốc.
+FR-04: Tra cứu lịch sử khám. Hiển thị những lần khám trước của bệnh nhân cho nhân viên có thẩm quyền.
+FR-05: Thống kê dịch bệnh. Tổng hợp số ca bệnh theo thời gian, nhóm bệnh và tình trạng điều trị.
+FR-06: Quản lý tài khoản. Cho phép quản trị viên cấp quyền và thu hồi quyền truy cập của người dùng.
+B. Yêu cầu phi chức năng về bảo mật
+Mã
+Yêu cầu
+Tiêu chí nghiệm thu đề xuất
+NFR-01
+Xác thực người dùng
+Người dùng phải đăng nhập trước khi truy cập dữ liệu bệnh nhân.
+NFR-02
+Phân quyền
+Bác sĩ, lễ tân và quản trị viên chỉ được truy cập chức năng phù hợp với nhiệm vụ.
+NFR-03
+Mã hóa dữ liệu
+Dữ liệu được mã hóa khi truyền và khi lưu trữ theo cơ chế bảo mật phù hợp.
+NFR-04
+Nhật ký truy cập
+Ghi nhận người thực hiện, thời gian và hành động đối với hồ sơ quan trọng.
+NFR-05
+Sao lưu và khôi phục
+Có lịch sao lưu, kiểm tra khả năng khôi phục và quy trình xử lý sự cố.
+NFR-06
+Bảo vệ phiên đăng nhập
+Tự động hết hạn phiên sau một khoảng thời gian không hoạt động được cấu hình.
+NFR-07
+Hiệu năng
+Mục tiêu ban đầu: 95% yêu cầu tra cứu hồ sơ phản hồi trong tối đa 3 giây khi tải thử nghiệm được xác định.
+
+Lưu ý: Các chỉ tiêu trên là tiêu chí đề xuất cho bài tập, cần được xác nhận lại với phòng khám trước khi triển khai thực tế.
+Phần 2. Triển khai hệ thống Clinic-Cloud tích hợp
+2.1. Mô hình hoạt động
+Clinic-Cloud là hệ thống quản lý phòng khám tích hợp ba thành phần chính:
+Người dùng hệ thống
+Lễ tân · Bác sĩ · Quản trị viên
+Clinic-Cloud
+Đăng nhập · Phân quyền · Quản lý bệnh án · Thống kê
+Cơ sở dữ liệu tập trung
+Hồ sơ bệnh nhân · Lịch khám · Bệnh án · Nhật ký truy cập
+Dữ liệu được bảo vệ bằng cơ chế phân quyền, mã hóa và sao lưu.
+Quy trình hoạt động:
+Lễ tân đăng nhập và tạo hồ sơ bệnh nhân.
+Bác sĩ truy cập hồ sơ theo quyền được cấp, ghi nhận chẩn đoán và điều trị.
+Hệ thống lưu dữ liệu, ghi nhật ký truy cập và thực hiện sao lưu.
+Nhân viên được phân quyền xem báo cáo thống kê tổng hợp.
+2.2. Quản lý 1.000 hồ sơ bệnh nhân bằng Excel
+Nguyên tắc Database Mindset: Mỗi hàng là một bệnh nhân, mỗi cột là một thuộc tính, mỗi hồ sơ có một mã định danh duy nhất.
+Bảng dữ liệu đề xuất:
+MaBN
+HoTen
+NgaySinh
+GioiTinh
+MaBenh
+NgayKham
+TrangThai
+BN0001
+Nguyễn Văn A
+12/03/2000
+Nam
+B001
+20/10/2026
+Đã khám
+BN0002
+Trần Thị B
+05/07/1998
+Nữ
+B002
+21/10/2026
+Đang điều trị
+BN0003
+Lê Văn C
+(để trống)
+Nam
+B001
+22/10/2026
+Chờ khám
+
+Dữ liệu trên chỉ là ví dụ minh họa, không phải hồ sơ bệnh nhân thật.
+Các bước triển khai:
+Tạo các cột có tiêu đề rõ ràng, không trùng tên.
+Nhập hoặc nhập khẩu 1.000 hồ sơ, đảm bảo MaBN không trùng lặp.
+Chọn toàn bộ vùng dữ liệu và nhấn Ctrl + T để chuyển thành Excel Table.
+Tích chọn My table has headers để Excel nhận diện hàng tiêu đề.
+Sử dụng bộ lọc tại hàng tiêu đề để tìm bệnh nhân theo mã, ngày khám hoặc trạng thái.
+Kiểm tra dữ liệu trùng lặp, sai định dạng ngày và các trường thông tin còn thiếu.
+2.3. Xử lý bẫy dữ liệu: Hàng nghìn ô trống làm gián đoạn AutoFilter
+Cần phân biệt ô trống với hàng trống hoàn toàn. Ô trống trong một trường thông tin không nhất thiết làm AutoFilter bị ngắt. Vấn đề thường xuất hiện khi có hàng trống hoặc cột trống xen giữa các vùng dữ liệu nếu sử dụng bộ lọc trên một vùng thông thường.
+Cách xử lý chuẩn:
+Không xóa cả hồ sơ chỉ vì bệnh nhân chưa cung cấp đủ thông tin.
+Để trống trường chưa có dữ liệu; không điền thông tin giả hoặc dùng khoảng trắng để thay thế.
+Không chèn hàng trống giữa các hồ sơ và không gộp ô trong bảng dữ liệu.
+Chuyển vùng dữ liệu thành Excel Table bằng Ctrl + T để bộ lọc tự mở rộng khi thêm hồ sơ mới.
+Dùng mã bệnh nhân duy nhất để nhận diện từng hồ sơ, kể cả khi nhiều trường khác còn trống.
+Kết luận: Excel Table giúp duy trì bộ lọc ổn định trên tập dữ liệu có nhiều ô trống, đồng thời hỗ trợ quản lý đủ 1.000 hồ sơ mà không phải chọn lại vùng dữ liệu thủ công.
+2.4. Báo cáo dịch bệnh bằng Donut Chart
+Ví dụ minh họa một báo cáo tổng hợp gồm 100 ca bệnh giả định:
+Tỷ lệ ca bệnh theo nhóm bệnh
+Dữ liệu giả định để minh họa biểu đồ, không phản ánh tình hình dịch bệnh thực tế.
+Tỷ lệ ca bệnh
+100 ca bệnh giả định
+Cúm
+Khác
+Sốt xuất huyết
+Viêm đường hô hấp
+Cúm
+40%
+Sốt xuất huyết
+25%
+Viêm đường hô hấp
+20%
+Khác
+15%
+Cách tạo biểu đồ trong Excel:
+Tạo bảng tổng hợp gồm hai cột: Nhóm bệnh và Số ca.
+Chọn bảng tổng hợp, vào Insert → Pie or Doughnut Chart → Doughnut.
+Bật nhãn dữ liệu và tỷ lệ phần trăm.
+Giữ tối đa vài nhóm màu dễ phân biệt, bỏ các hiệu ứng trang trí không cần thiết.
+Chỉ sử dụng dữ liệu tổng hợp, không đưa họ tên, số điện thoại hoặc mã bệnh nhân vào biểu đồ báo cáo.
+Phần 3. Kiểm thử tài liệu Word và Heading Styles
+3.1. Tình huống kiểm thử
+Tình huống: Khi soạn thảo tài liệu SRS, người dùng vô tình gán kiểu Heading 1 cho một đoạn văn nội dung thông thường. Đoạn văn xuất hiện trong mục lục tự động và làm sai cấu trúc tài liệu.
+3.2. Cách khắc phục bằng Ctrl + Shift + N
+
+Bước 1: Chọn đoạn văn bị gán nhầm
+Bôi đen đoạn văn đang có kiểu Heading 1 hoặc đặt con trỏ trong đoạn đó.
+Bước 2: Nhấn Ctrl + Shift + N
+Phím tắt này chuyển đoạn văn về kiểu Normal mặc định của Word, thay vì kiểu tiêu đề.
+Bước 3: Cập nhật mục lục
+Chọn mục lục, nhấn chuột phải → Update Field → Update entire table để loại bỏ mục tiêu đề không còn phù hợp.
+3.3. Bảng kiểm thử nghiệm thu
+Mã test
+Thao tác kiểm thử
+Kết quả mong đợi
+TC-01
+Đăng nhập bằng tài khoản hợp lệ
+Truy cập hệ thống thành công.
+TC-02
+Nhân viên không có quyền mở bệnh án
+Hệ thống từ chối truy cập.
+TC-03
+Lọc Excel khi một số ô bị trống
+Các hồ sơ vẫn được lọc đầy đủ.
+TC-04
+Thêm hồ sơ mới vào Excel Table
+Bộ lọc và vùng bảng tự mở rộng.
+TC-05
+Gán nhầm Heading 1, sau đó nhấn Ctrl + Shift + N
+Đoạn văn trở về kiểu Normal.
+TC-06
+Cập nhật mục lục tự động
+Mục lục phản ánh đúng các tiêu đề còn hợp lệ.
+
+Kết luận
+Clinic-Cloud kết hợp tài liệu SRS, bảng dữ liệu Excel và biểu đồ Donut để hỗ trợ phòng khám quản lý hồ sơ hiệu quả. Ba điểm quan trọng nhất là phân biệt yêu cầu chức năng với phi chức năng, tổ chức dữ liệu theo Database Mindset và bảo vệ thông tin bệnh nhân bằng phân quyền cùng cơ chế bảo mật phù hợp.
+Trong triển khai thực tế, Excel chỉ nên được dùng làm công cụ nhập liệu hoặc báo cáo có kiểm soát, không nên thay thế cơ sở dữ liệu bệnh án chuyên dụng. Thông tin sức khỏe cần được xử lý theo quy định pháp luật hiện hành về bảo vệ dữ liệu cá nhân và dữ liệu y tế.
+Cho đến nay, cuộc hội thoại này có hữu ích với bạn không?
+
